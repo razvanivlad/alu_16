@@ -1,0 +1,28 @@
+# add all Verilog source files, separated by spaces
+set sourcefiles {Sources/absolute_value.v Sources/sign_negator.v Sources/not_gate.v Sources/bit_not.v Sources/plus_1_adder.v Sources/half_adder_cell.v Sources/mux2to1.v Tests/absolute_value_tb.v}
+
+# set name of the top module
+set topmodule absolute_value_tb
+
+###################################################
+#####DO NOT MODIFY THE SCRIPT BELLOW THIS LINE#####
+###################################################
+
+# quit current simulation if any
+quit -sim
+
+# empty the work library if present
+if [file exists "work"] {vdel -all}
+#create a new work library
+vlib work
+
+# run the compiler
+if [catch "eval vlog $sourcefiles"] {
+    puts "correct the compilation errors"
+    return
+}
+
+vsim -voptargs=+acc $topmodule
+
+run -all
+quit -sim
